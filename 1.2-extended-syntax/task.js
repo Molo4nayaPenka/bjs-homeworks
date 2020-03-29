@@ -1,10 +1,6 @@
 "use strict"
 function getResult(a,b,c) {
-    // let coeff_1 = a;
-    // let coeff_2 = b;
-    // let coeff_3 = c;
-    // let D = coeff_2** - 4 * coeff_1 * coeff_3;
-    let D = b ** - 4 * a * c;
+    let D = Math.pow(b, 2) - 4 * a * c;
     let x = [];
     if (D < 0) {
         x = [];
