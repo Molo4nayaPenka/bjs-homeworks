@@ -7,13 +7,13 @@ function getResult(a,b,c) {
     } else if (D === 0) {
         x.push(-1 * b / 2 * a);
     } else if (D > 0) {
-        x.push((-1 * b - Math.sqrt(D)) / 2 * a);
-        x.push((-1 * b + Math.sqrt(D)) / 2 * a); 
+        x.push((-1 * b + Math.sqrt(D)) / 2 * a);
+        x.push((-1 * b - Math.sqrt(D)) / 2 * a); 
     }
     return x;
 }
 
-function getAverageMark(marks){
+function getAverageMark(marks) {
     let averageMark = 0;
     if (marks.length === 0)  {
         return averageMark;
@@ -29,7 +29,16 @@ function getAverageMark(marks){
     return averageMark;
 }
 
-function askDrink(name,dateOfBirthday){
-    // код для задачи №3 писать здесь
-    // return result;
+function askDrink(name, dateOfBirthday) {
+    let birthYear = dateOfBirthday.getFullYear();
+    let today = new Date();
+    let todayYear = today.getFullYear();
+    let age = todayYear - birthYear;
+    let result;
+    if (age > 18) {
+        result = `Не желаете ли олд-фэшн, ${name}?`;     
+    } else {
+        result = `Сожалею, ${name}, но я не могу вам продать алкоголь. Зато могу предложить вам замечательный клюквенный компот!`;
+    }
+    return result;
 }
