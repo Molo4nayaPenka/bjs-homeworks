@@ -1,29 +1,33 @@
 "use strict"
 function calculateTotalMortgage(percent, contribution, amount, date) {
-    // let fullYears = date.getFullYear() - new Date().getFullYear();
-    // let fullMonths = date.getMonth() - new Date().getMonth();
-    // let months = fullYears * 12 + fullMonths;
     let months = (date.getFullYear() - new Date().getFullYear()) * 12 + (date.getMonth() - new Date().getMonth());
     console.log(months);
     if (isNaN(percent)) {
-        console.log(`Параметр 'Процентная ставка' содержит неправильное значение ${percent.valueOf()}`);
+        console.log(`Параметр 'Процентная ставка' содержит неправильное значение ${percent}`);
     } 
     if (isNaN(contribution)) {
-        console.log(`Параметр 'Начальный взнос' содержит неправильное значение ${contribution.valueOf()}`);
+        console.log(`Параметр 'Начальный взнос' содержит неправильное значение ${contribution}`);
     } 
     if (isNaN(amount)) {
-        console.log(`Параметр 'Общая строимость' содержит неправильное значение ${amount.valueOf()}`)
+        console.log(`Параметр 'Общая строимость' содержит неправильное значение ${amount}`)
     }
     
     let mortgageBody = amount - contribution;
     let P = (1 / 12 * percent) / 100;
     let monthlyPayment = mortgageBody * (P + P / ((Math.pow((1 + P), months) - 1)));
     let totalAmount = monthlyPayment * months;
-    totalAmount = totalAmount.toFixed(2);
+    totalAmount = Number(totalAmount.toFixed(2));
     return totalAmount;
 }
 
 function getGreeting(name) {
-    // код для задачи №2 писать здесь
-    // return greeting;
+    let greeting = '';
+    // let checkUndefined;
+    // let checkNull = null;
+    if (name) {
+        greeting = `Привет, мир! Меня зовут ${name}`;
+    } else if (name === undefined || name === null || name === name.charAt(9999)) {
+        greeting = `Привет, мир! Меня зовут Аноним`;
+    } 
+    return greeting;
 }
