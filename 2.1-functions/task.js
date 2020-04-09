@@ -1,4 +1,6 @@
 'use strict'
+
+//1st task
 function getSolutions(a = 0, b = 0, c = 0) {
     const D  = (b ** 2) - 4 * a * c;
     let roots = [];
@@ -24,7 +26,7 @@ function showSolutionsMessage(a = 0, b = 0, c = 0) {
     console.log('Вычисляем корни квадратного уравнения ax² + bx + c');
     console.log(`Значение дискриминанта: ${result.D}`);
     if (result.roots.length === 1) {
-        console.log(`Уравнение имеет один корень X₁ = ${result.roots[0]}`);
+        console.log(`Уравнение имеет один корень. X₁ = ${result.roots[0]}`);
     } else if (result.roots.length === 2) {
         console.log(`Уравнение имеет два корня. X₁ = ${result.roots[0]}, X₂ = ${result.roots[1]}`);
     } else {
@@ -34,22 +36,36 @@ function showSolutionsMessage(a = 0, b = 0, c = 0) {
 
 showSolutionsMessage(1, 2, 3);
 
-// почему, когда я писала roots = roots.push(x1)  (7 строка), возвращалась длина массива, а не сам массив? 
-// я думала, что это будет происходить, когда я наоборот не переназначу roots (тот код, который в итоге вы
-// сейчас видите).
-// то есть вариант, который я считала неправильным, сработал и наоборот, "правильный" не сработал
 
-// можно ли сделать так, чтобы те аргументы, которые я передаю в getSolutions, передавались и в showSolutionsMessage?
-// или в реальной работе они автоматически будут связаны друг с другом? просто сейчас я несколько раз забывала 
-// поменять значения во второй функции и это очень раздражает((
-
+// 2nd task
 function getAverageScore(data) {
-    function getAverageMark(...marks) {
-        
+    const averageScore = {};
+    for (let prop in data) {
+        averageScore[prop] = getAverageMark(data[prop]);
     }
+
+    let averageMarks = [];
+    for (let mark in averageScore) {
+        averageMarks.push(averageScore[mark]);
+    }
+
+    averageScore.average = getAverageMark(averageMarks);
+    
+    return averageScore;
 }
 
-let data = {
+function getAverageMark(marks) {
+    let sum = 0;
+    for (let i=0; i < marks.length; i++) {
+        sum += marks[i];
+    }
+    if (!sum) {
+        return 0;
+    }
+    return sum / marks.length;
+}
+
+console.log(getAverageScore({
     algebra: [2, 5, 4, 3, 5, 4],
     geometry: [4, 5, 5, 5, 4],
     russian: [3, 3, 3, 5, 4, 4, 5],
@@ -58,5 +74,34 @@ let data = {
     english: [4, 4, 4, 3, 5, 5],
     poetry: [5, 5, 4, 3],
     chemistry: [2, 4, 3],
-    french: [2]
+    french: [2, 3],
+}));
+
+
+//third task
+function getPersonData(secretData) {
+    let personData = {};
+    for (let prop in secretData) {
+        personData[prop] = getDecodedValue(secretData[prop]);
+    }
+    
+    return {
+        firstName: personData.aaa,
+        lastName: personData.bbb,
+    }
 }
+
+function getDecodedValue(secret) {
+    let decodedValue;
+    if (secret === 0) {
+        decodedValue = 'Родриго';
+    } else {
+        decodedValue = 'Эмильо';
+    }
+    return decodedValue;
+}
+
+console.log(getPersonData({
+  aaa: 0,
+  bbb: 0,
+}));
