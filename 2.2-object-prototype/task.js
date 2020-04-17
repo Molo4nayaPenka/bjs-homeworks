@@ -29,8 +29,7 @@ function getAverageMark(marks) {
         sum += marks[i];
     }
     const average = sum / marks.length;
-    const roundedAverage = Math.round(average);
-    console.log(roundedAverage);
+    const roundedAverage = Math.round(sum / marks.length);
     return roundedAverage;
 }
 
