@@ -21,11 +21,13 @@ class Weapon {
     };
 
     // почему-то тест на этом месте выдаёт, что 'expected 10 to equal 5'. но ведь я вроде правильно условие выполнила
+    // UPD: я сделала, как вы написали -- не перезаписывала this.attack, а сразу возвращала нужное значение. но не очень поняла, почему
+    // это срaботало :^). это как-то связано с this или с return?
     getDamage() {
         if (this.durability === 0) {
-            this.attack = 0;
+            return 0;
         } else if (this.durability < this.initialDurability * 0.3) {
-            this.attack = this.attack / 2;
+            return this.attack / 2;
         } 
 
         return this.attack;
@@ -102,120 +104,123 @@ const stormStaff = new Weapon({
 });
 
 //2
-// я пыталась понять, как сделать так, чтобы не нужно было при создании каждого объекта
-// передавать с ним параметры (чтобы можно было написать просто const sword2 = new Sword()), но так и не поняла. 
-// сейчас тест пишет, 'Cannot read property 'name' of undefined' на каждый экземпляр оружия.
-// в class Sword я оставила один из вариантов старых решений. подскажите, пожалуйста, что я делаю не так?
 
 class Sword extends Weapon {
-    constructor(values) {
-        super(values);
-        this.name = 'Старый меч';
-        this.attack = 25;
-        this.durability = 500;
-        this.range = 1;
+    constructor(extended) {
+        if (extended === undefined) {
+            super({
+                name: 'Меч',
+                attack: 25,
+                durability: 500,
+                range: 1,
+            });
+        } else {
+            super(extended);
+        }    
     }
 }
 
-const sword2 = new Sword({
-    name: 'Старый меч',
-    attack: 25,
-    durability: 500,
-    range: 1,
-});
+class Axe extends Sword {
+    constructor() {
+        super({
+            name: 'Секира',
+            attack: 27,
+            durability: 800,
+            // здесь можно обращаться через точку к свойству? 
+            // вдруг мы не создадим объект, к свойству которого обращаемся? или вдруг у него будет другое имя?
+            // просто продублировать значение по логике задания не подходит
+            range: sword.range,
+        });
+    }
+}
 
+class Arm extends Weapon {
+    constructor() {
+        super({
+            name: 'Рука',
+            attack: 1,
+            durability: Infinity,
+            range: 1,
+        });
+    }
+}
+
+class Bow extends Weapon {
+    constructor(extended) {
+        if (extended === undefined) {
+            super({
+                name: 'Лук',
+                attack: 10,
+                durability: 200,
+                range: 3,
+            });
+        } else {
+            super(extended);
+        }    
+    }
+}
+
+class LongBow extends Bow {
+    constructor() {
+        super({
+            name: 'Длинный лук',
+            attack: 15,
+            durability: bow.durability,
+            range: 4,
+        });
+    }
+}
+
+class Knife extends Weapon {
+    constructor() {
+        super({
+            name: 'Нож',
+            attack: 5,
+            durability: 300,
+            range: 1,
+        });
+    }
+}
+
+class Staff extends Weapon {
+    constructor(extended) {
+        if (extended === undefined) {
+            super({
+                name: 'Посох',
+                attack: 8,
+                durability: 300,
+                range: 2,
+            });
+        } else {
+            super(extended);
+        }
+    }
+}
+
+class StormStaff extends Staff {
+    constructor() {
+        super({
+            name: 'Посох Бури',
+            attack: 10,
+            durability: staff.durability, 
+            range: 3,
+        });
+    }
+}
+
+const sword2 = new Sword();
+console.log('======= SWORD2 =======');
 console.log(sword2.name);
 console.log(sword2.durability);
 console.log(sword2.attack);
 console.log(sword2.range);
-
-class Arm extends Weapon {
-    constructor(values) {
-        super(values);
-    }
-}
-class Bow extends Weapon {
-    constructor(values) {
-        super(values);
-    }
-}
-
-const arm2 = new Arm({
-    name: 'Рука',
-    attack: 1,
-    durability: Infinity,
-    range: 1,
-});
-
-const bow2 = new Bow({
-    name: 'Лук',
-    attack: 10,
-    durability: 200,
-    range: 3,
-});
-
-class Knife extends Weapon {
-    constructor(values) {
-        super(values);
-    }
-}
-
-const knife2 = new Knife({
-    name: 'Нож',
-    attack: 5,
-    durability: 300,
-    range: 1,
-});
-
-class Staff extends Weapon {
-    constructor(values) {
-        super(values);
-    }
-}
-
-const staff2 = new Staff({
-    name: 'Посох',
-    attack: 8,
-    durability: 300,
-    range: 2,
-})
-
-class Axe extends Sword {
-    constructor(values) {
-        super(values);
-    }
-}
-
-const axe2 = new Axe({
-    name: 'Секира',
-    attack: 27,
-    durability: 800,
-});
-
-class LongBow extends Bow {
-    constructor(values) {
-        super(values);
-    }
-}
-
-const longBow2 = new LongBow({
-    name: 'Длинный лук',
-    attack: 15,
-    range: 4,
-});
-
-class StormStaff extends Staff {
-    constructor(values) {
-        super(values);
-    }
-}
-
-const stormStaff2 = new StormStaff({
-    name: 'Посох Бури',
-    attack: 10,
-    durability: staff.durability,
-    range: 3,
-});
+const axe2 = new Axe();
+const arm2 = new Arm();
+const bow2 = new Bow();
+const longBow2 = new LongBow();
+const knife2 = new Knife();
+const staff2 = new Staff();
+const stormStaff2 = new StormStaff();
 console.log(stormStaff2);
 
 // 3
