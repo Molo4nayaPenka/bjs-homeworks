@@ -28,10 +28,7 @@ class AlarmClock {
     }
 
     removeClock(id) {
-        this.alarmToBeDeleted = this.alarmCollection.filter((alarm) => id === alarm.id);
-        const index = this.alarmCollection.indexOf(this.alarmToBeDeleted);
-        this.alarmCollection.splice(index, 1);
-        return !!this.alarmToBeDeleted.length;
+        this.alarmCollection = this.alarmCollection.filter(alarm => alarm.id !== id);  
     }
 
     getCurrentFormattedTime() {
@@ -76,16 +73,18 @@ class AlarmClock {
 // создаём экземпляр класса AlarmClock
 
 const alarm = new AlarmClock();
-alarm.addClock('17:36', () => console.log('It\'s time to go to bed'), 1);
+alarm.addClock('18:02', () => console.log('It\'s time to go to bed'), 1);
 
-// этот будильник почему-то выполняется 2 раза перед удалением. не понимаю, в чём ошибка
-alarm.addClock('17:37', () => {
+alarm.addClock('18:36', () => {
     console.log('Go get some sleep already!');
     alarm.removeClock(2);
 }, 2);    
-
-alarm.addClock('17:37', () => console.log('Zzzzzz...'));
-alarm.addClock('17:38', () => {
+alarm.addClock('18:37', () => {
+    console.log('test');
+    alarm.removeClock(4)
+}, 4);
+alarm.addClock('18:04', () => console.log('Zzzzzz...'));
+alarm.addClock('18:38', () => {
     console.log('You\'re gonna regret it in the morning');
     alarm.stop();
     alarm.clearAlarms();
@@ -93,4 +92,4 @@ alarm.addClock('17:38', () => {
 }, 3); 
 alarm.start();   
 alarm.printAlarms();
-alarm.addClock('17:39', () => console.log('Do not do this mistake again, dude!'), 1);
+alarm.addClock('18:47', () => console.log('Do not do this mistake again, dude!'), 1);
