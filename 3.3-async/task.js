@@ -28,7 +28,12 @@ class AlarmClock {
     }
 
     removeClock(id) {
-        this.alarmCollection = this.alarmCollection.filter(alarm => alarm.id !== id);  
+        if (this.alarmCollection.some(alarm => alarm.id === id)) {
+            this.alarmCollection = this.alarmCollection.filter(alarm => alarm.id !== id);
+            return true, console.log(`Будильник №${id} удалён`);
+        } else {
+            return false, console.log(`Ошибка удаления будильника. Будильник №${id} не существует`);
+        }   
     }
 
     getCurrentFormattedTime() {
@@ -75,16 +80,17 @@ class AlarmClock {
 const alarm = new AlarmClock();
 alarm.addClock('18:02', () => console.log('It\'s time to go to bed'), 1);
 
-alarm.addClock('18:36', () => {
+alarm.addClock('16:14', () => {
     console.log('Go get some sleep already!');
     alarm.removeClock(2);
+    alarm.removeClock(6);
 }, 2);    
-alarm.addClock('18:37', () => {
+alarm.addClock('16:15', () => {
     console.log('test');
     alarm.removeClock(4)
 }, 4);
-alarm.addClock('18:04', () => console.log('Zzzzzz...'));
-alarm.addClock('18:38', () => {
+alarm.addClock('16:10', () => console.log('Zzzzzz...'));
+alarm.addClock('18:16', () => {
     console.log('You\'re gonna regret it in the morning');
     alarm.stop();
     alarm.clearAlarms();
